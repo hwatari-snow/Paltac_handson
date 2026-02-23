@@ -60,6 +60,18 @@ CREATE OR REPLACE GIT REPOSITORY PALTAC_HANDSON.RAW.GIT_PALTAC_HANDSON
     API_INTEGRATION = paltac_handson_git_api_integration
     ORIGIN = 'https://github.com/hwatari-snow/Paltac_handson.git';
 
+-- ============================================================
+-- STEP 6: GitリポジトリからNotebookを作成
+--   GitHubリポジトリ上の PALTAC_AI_HANDSON.ipynb を
+--   Snowflake Notebook として取り込みます。
+--   取り込み後、Snowsight の「Notebooks」からアクセスできます。
+-- ============================================================
+CREATE OR REPLACE NOTEBOOK PALTAC_AI_HANDSON
+    FROM @PALTAC_HANDSON.RAW.GIT_PALTAC_HANDSON/branches/main/
+    MAIN_FILE = 'PALTAC_AI_HANDSON.ipynb'
+    QUERY_WAREHOUSE = compute_wh
+    WAREHOUSE = compute_wh;
+
 -- リポジトリの内容確認
 LIST @PALTAC_HANDSON.RAW.GIT_PALTAC_HANDSON/branches/main;
 
